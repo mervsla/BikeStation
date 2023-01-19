@@ -24,12 +24,12 @@
 
     <div class="form-group">
         <label for="bikeLongitudeInput">Boylam</label>
-        <input type="number" class="form-control" id="bikeLongitudeInput" name="lon" data-bind="value: bikeLongitude" required>
+        <input type="number" class="form-control" id="bikeLongitudeInput" name="lon" data-bind="value: bikeLongitude">
     </div>
 
     <div class="form-group">
         <label for="bikeLatitudeInput">Enlem</label>
-        <input type="number" class="form-control" id="bikeLatitudeInput" name="lat" data-bind="value: bikeLatitude" required>
+        <input type="number" class="form-control" id="bikeLatitudeInput" name="lat" data-bind="value: bikeLatitude">
     </div>
 
 
@@ -37,17 +37,12 @@
 </form>
 
 
-<script>
-    //function BikeViewModel() {
-    //    this.name = ko.observable("GRID 402 FIRMWARE RESCUE");
-    //    this.stationId = ko.observable("hub_2555");
-    //}
-    //ko.applyBindings(new BikeViewModel());
-
-
-</script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/knockout/knockout-latest.js"></script>
+<script src="~/knockout-validation/knockout.validation.js"></script>
 <script type="text/javascript">
+    bikeNameInput: ko.observable().extend({ required: true});
+    stationIdSelect: ko.observable().extend({required: true});
 
     $(document).ready(function () {
         var select = document.getElementById("stationIdSelect");
@@ -62,10 +57,6 @@
             });
 
     });
-
-
-
-
 
 
 </script>
