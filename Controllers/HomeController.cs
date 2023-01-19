@@ -28,6 +28,11 @@ namespace BikeStation.Controllers
             return View(model);
         }
 
+        public IActionResult Graphic()
+        {
+            var model = GraphicHelper.GetNumberOfBikesAtStations();
+            return View(model);
+        }
         public IActionResult Privacy()
         {
             return View();

@@ -13,7 +13,7 @@
     </div>
     <div class="form-group">
         <label for="bikeIdInput">Bisiklet Id</label>
-        <input type="text" class="form-control" id="bikeNameInput" name="station_id" data-bind="value: bikeId" required>
+        <input type="text" class="form-control" id="bikeNameInput" name="station_id" data-bind="value: bikeId" >
     </div>
     <div class="form-group">
         <label for="stationIdSelect">İstasyon ID</label>
@@ -41,8 +41,8 @@
 <script src="~/knockout/knockout-latest.js"></script>
 <script src="~/knockout-validation/knockout.validation.js"></script>
 <script type="text/javascript">
-    bikeNameInput: ko.observable().extend({ required: true});
-    stationIdSelect: ko.observable().extend({required: true});
+    ////bikeNameInput: ko.observable().extend({ required: true});
+    ////stationIdSelect: ko.observable().extend({required: true});
 
     $(document).ready(function () {
         var select = document.getElementById("stationIdSelect");
