@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Bisiklet Kayıt Sayfası";
+}
+
+@using BikeStation.Models
+@using System.Web.Helpers
+@model Stations
+
+<form method="POST" action="Home/AddBike">
+    <div class="form-group">
+        <label for="bikeNameInput">Bisiklet Adı</label>
+        <input type="text" class="form-control" id="bikeNameInput" name="bike_id" data-bind="value: bikeName" required>
+    </div>
+    <div class="form-group">
+        <label for="bikeIdInput">Bisiklet Id</label>
+        <input type="text" class="form-control" id="bikeNameInput" name="station_id" data-bind="value: bikeId" required>
+    </div>
+    <div class="form-group">
+        <label for="stationIdSelect">İstasyon ID</label>
+        <select class="form-control" id="stationIdSelect" name="name" data-bind="value: stationId" required>
+            <!-- more options for stations -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="bikeLongitudeInput">Boylam</label>
+        <input type="number" class="form-control" id="bikeLongitudeInput" name="lon" data-bind="value: bikeLongitude" required>
+    </div>
+
+    <div class="form-group">
+        <label for="bikeLatitudeInput">Enlem</label>
+        <input type="number" class="form-control" id="bikeLatitudeInput" name="lat" data-bind="value: bikeLatitude" required>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary ">Kaydet</button>
+</form>
+
+
+<script>
+    //function BikeViewModel() {
+    //    this.name = ko.observable("GRID 402 FIRMWARE RESCUE");
+    //    this.stationId = ko.observable("hub_2555");
+    //}
+    //ko.applyBindings(new BikeViewModel());
+
+
+</script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var select = document.getElementById("stationIdSelect");
+
+        var list = @Html.Raw(Json.Serialize(Model));
+
+        list.data.stations.forEach(function (item) {
+                var option = document.createElement("option");
+                option.value = item.station_id;
+                option.text = item.name;
+                select.appendChild(option);
+            });
+
+    });
+
+
+
+
+
+
+</script>
+
+
+
