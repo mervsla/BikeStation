@@ -14,31 +14,39 @@ namespace BikeStation.Services
         {
             try
             {
+                //Read stations
                 var stationFilePath = @"./DataSource/station.json";
                 var stations = JsonHelper.ReadJsonFile<Stations>(stationFilePath);
-
+                //Read bikes
                 var bikeFilePath = @"./DataSource/bike.json";
                 var bikes = JsonHelper.ReadJsonFile<Bikes>(bikeFilePath);
 
                 var list = new List<GraphicModel>();
-                foreach (var stationItem in from stationItem in stations.data.stations
-                                            from bikeItem in bikes.data.bikes
-                                            where stationItem.station_id == bikeItem.station_id
-                                            select stationItem)
+                foreach (var item in stations.data.stations)
                 {
-                    if (!list.Select(x => x.StationId).Contains(stationItem.station_id))
+                    var bikeList = new List<int>();
+                    var bikeName = string.Empty;
+                    foreach (var itemm in bikes.data.bikes)
                     {
-                        list.Add(new GraphicModel()
+                        if (item.station_id == itemm.station_id)
                         {
-                            StationId = stationItem.station_id,
-                            StationName = stationItem.name,
-                            BikeCount = 1
-                        });
+                            bikeList.Add(1);
+                            bikeName = itemm.name;
+                        }
+                        else
+                            bikeList.Add(0);
                     }
-                    else
+                    var series = new BikeNamesAndCount()
                     {
-                        list.Where(x => x.StationId == stationItem.station_id).FirstOrDefault().BikeCount++;
-                    }
+                        name = bikeName,
+                        data = bikeList
+                    };
+
+                    list.Add(new GraphicModel()
+                    {
+                        StationName = item.name,
+                        series = series
+                    });
                 }
 
                 return list;
@@ -47,7 +55,7 @@ namespace BikeStation.Services
             {
                 throw new Exception(ex.Message);
             }
-            
+
         }
     }
 }

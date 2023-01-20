@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace BikeStation.Models
 {
-    public class GraphicModel
+    public class BikeNamesAndCount
     {
-        public string StationName { get; set; }
-        public BikeNamesAndCount series { get; set; }
+        public string name { get; set; }
+
+        public List<int> data { get; set; }
     }
 }
