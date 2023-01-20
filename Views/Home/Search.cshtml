@@ -1,0 +1,148 @@
+﻿@{
+    ViewData["Title"] = "Bisiklet Arama Sayfası";
+}
+
+@using BikeStation.Models
+@using System.Web.Helpers
+@model Stations
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
+<div class="container">
+    <form id="bikeSearchForm">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="bikeNameInput">Bisiklet Adı</label>
+                    <input type="text" class="form-control" id="bikeNameInput" name="bike_id" data-bind="value: bikeName">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="bikeIdInput">Bisiklet Id</label>
+                    <input type="text" class="form-control" id="bikeNameInput" name="station_id" data-bind="value: bikeId">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <label for="stationIdSelect">İstasyon ID</label>
+                    <select class="form-control" id="stationIdSelect" name="name" data-bind="value: stationId">
+                        <!-- more options for stations -->
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="bikeLongitudeInput">Boylam</label>
+                    <input type="number" class="form-control" id="bikeLongitudeInput" name="lon" data-bind="value: bikeLongitude">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="bikeLatitudeInput">Enlem</label>
+                    <input type="number" class="form-control" id="bikeLatitudeInput" name="lat" data-bind="value: bikeLatitude">
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="searchBikeBtn">Ara</button>
+
+    </form>
+
+
+    <div id="BikeSelectionContent" style="display:none;">
+        <div class="table-responsive">
+            <table id="BikeTable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Bisiklet Adı</th>
+                        <th>Bisiklet Id</th>
+                        <th>İstasyon Id</th>
+                        <th>Boylam</th>
+                        <th>Enlem</th>
+                        <th>Rezerve</th>
+                        <th>Devre Dışı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">IDBCursor
+
+    $(document).ready(function () {
+        debugger
+        var select = document.getElementById("stationIdSelect");
+
+        var list = @Html.Raw(Json.Serialize(Model));
+
+        list.data.stations.forEach(function (item) {
+                var option = document.createElement("option");
+                option.value = item.station_id;
+                option.text = item.name;
+                select.appendChild(option);
+        });
+
+    });
+
+
+    $("#searchBikeBtn").click(function () {
+        name = $('#bikeNameInput').val();
+        bike_id = $('#bikeIdInput').val();
+        station_id = $('#stationIdSelect').val();
+        lon = $('#bikeLongitudeInput').val();
+        lat = $('#bikeLatitudeInput').val();
+        is_reserved = 0;
+        is_disabled = 0;
+
+        debugger
+        $.ajax({
+            type: "POST",
+            url: "/Home/SearchBike",
+            data: {
+                'name': name,
+                'bike_id': bike_id,
+                'station_id': station_id,
+                'lon': lon,
+                'lat': lat,
+                'is_reserved': is_reserved,
+                'is_disabled': is_disabled,
+            },
+            success: function (data) {
+
+                $("#BikeSelectionContent").css("display", "block");
+                $("#BikeTable").DataTable({
+                    data: data,
+                    "columns": [
+                        { data: "name" },
+                        { data: "bike_id" },
+                        { data: "station_id" },
+                        { data: "lon" },
+                        { data: "lat" },
+                        { data: "is_reserved" },
+                        { data: "is_disabled" }
+
+                    ],
+                    retrieve: true,
+
+
+                });
+            }
+        });
+    });
+</script>

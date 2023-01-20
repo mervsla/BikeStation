@@ -6,44 +6,45 @@
 @using System.Web.Helpers
 @model Stations
 
-<form method="POST" action="Home/AddBike">
-    <div class="form-group">
-        <label for="bikeNameInput">Bisiklet Adı</label>
-        <input type="text" class="form-control" id="bikeNameInput" name="bike_id" data-bind="value: bikeName" required>
-    </div>
-    <div class="form-group">
-        <label for="bikeIdInput">Bisiklet Id</label>
-        <input type="text" class="form-control" id="bikeNameInput" name="station_id" data-bind="value: bikeId" >
-    </div>
-    <div class="form-group">
-        <label for="stationIdSelect">İstasyon ID</label>
-        <select class="form-control" id="stationIdSelect" name="name" data-bind="value: stationId" required>
-            <!-- more options for stations -->
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="bikeLongitudeInput">Boylam</label>
-        <input type="number" class="form-control" id="bikeLongitudeInput" name="lon" data-bind="value: bikeLongitude">
-    </div>
-
-    <div class="form-group">
-        <label for="bikeLatitudeInput">Enlem</label>
-        <input type="number" class="form-control" id="bikeLatitudeInput" name="lat" data-bind="value: bikeLatitude">
-    </div>
+<div class="container">
+    <form id="bikeSubmitForm">
 
 
-    <button type="submit" class="btn btn-primary ">Kaydet</button>
-</form>
+        <div class="form-group">
+            <label for="bikeNameInput">Bisiklet Adı</label>
+            <input type="text" class="form-control" id="bikeNameInput" name="name" data-bind="value: bikeName" required>
+        </div>
+        <div class="form-group">
+            <label for="bikeIdInput">Bisiklet Id</label>
+            <input type="text" class="form-control" id="bikeIdInput" name="bike_id" data-bind="value: bikeId">
+        </div>
+        <div class="form-group">
+            <label for="stationIdSelect">İstasyon ID</label>
+            <select class="form-control" id="stationIdSelect" name="station_id" data-bind="value: stationId" required>
+                <!-- more options for stations -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="bikeLongitudeInput">Boylam</label>
+            <input type="number" class="form-control" id="bikeLongitudeInput" name="lon" data-bind="value: bikeLongitude">
+        </div>
+
+        <div class="form-group">
+            <label for="bikeLatitudeInput">Enlem</label>
+            <input type="number" class="form-control" id="bikeLatitudeInput" name="lat" data-bind="value: bikeLatitude">
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" onclick="SubmitBike()">Kaydet</button>
+
+    </form>
+</div>
+
 
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/knockout/knockout-latest.js"></script>
-<script src="~/knockout-validation/knockout.validation.js"></script>
 <script type="text/javascript">
-    ////bikeNameInput: ko.observable().extend({ required: true});
-    ////stationIdSelect: ko.observable().extend({required: true});
-
     $(document).ready(function () {
         var select = document.getElementById("stationIdSelect");
 
@@ -57,9 +58,8 @@
             });
 
     });
-
-
 </script>
+<script src="~/js/recordBike.js"></script>
 
 
 

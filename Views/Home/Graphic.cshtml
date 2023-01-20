@@ -9,16 +9,16 @@
 
 <div class="container">
 
-    <figure class="highcharts-figure mt-5">
+    <figure class="highcharts-figure">
         <div id="container"></div>
-
+        <p class="highcharts-description">
+            Chart showing stacked percentage columns, where each column totals 100%,
+            and each element value is visualized by giving it a size relative to the
+            other elements.
+        </p>
     </figure>
 
-    <div id="button-bar">
-        <button id="small">Small</button>
-        <button id="large">Large</button>
-        <button id="auto">Auto</button>
-    </div>
+
 </div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -26,106 +26,40 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
+<script src="~/jslinq/jslinq.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var list = @Html.Raw(Json.Serialize(Model));
-        //var stationNames =  Enumerable.from(list)
-        //    .select(function (x) { return x.StationName }).toArray();
+    var list = @Html.Raw(Json.Serialize(Model));
+    stationNames = JSLINQ(list)
+        .Select(function (x) { return x.stationName }).ToArray();
 
-        debugger
-    });
-
+    var series = JSLINQ(list)
+        .Select(function (x) { return x.series }).ToArray();
 
 
     var chart = Highcharts.chart('container', {
-
         chart: {
             type: 'column'
         },
-
         title: {
-            text: 'İstasyonlardaki Bisiklet Yoğunluğu'
+            text: 'Bike Availability at Stations'
         },
-
-        subtitle: {
-            text: 'Aşağıdaki grafik istasyonlardaki bisiklet sayısını gösteren bir grafiktir.'
-        },
-
-        legend: {
-            align: 'right',
-            verticalAlign: 'middle',
-            layout: 'vertical'
-        },
-
         xAxis: {
-            categories: ['2019', '2020', '2021'],
-            labels: {
-                x: -10
-            }
+            categories: stationNames
         },
-
         yAxis: {
-            allowDecimals: false,
             title: {
-                text: 'Amount'
-            }
+                text: 'Number of Bikes Available'
+            },
         },
-
-        series: [{
-            name: 'Ava',
-            data: [38, 51, 34]
-        }, {
-            name: 'Dina',
-            data: [31, 26, 27]
-        }, {
-            name: 'Malin',
-            data: [38, 42, 41]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        align: 'center',
-                        verticalAlign: 'bottom',
-                        layout: 'horizontal'
-                    },
-                    yAxis: {
-                        labels: {
-                            align: 'left',
-                            x: 0,
-                            y: -5
-                        },
-                        title: {
-                            text: null
-                        }
-                    },
-                    subtitle: {
-                        text: null
-                    },
-                    credits: {
-                        enabled: false
-                    }
-                }
-            }]
-        }
-    });
-    document.getElementById('small').addEventListener('click', function () {
-        chart.setSize(400);
+        tooltip: {
+            pointFormat: '{series.name}: {point.y}'
+        },
+        series: series
     });
 
-    document.getElementById('large').addEventListener('click', function () {
-        chart.setSize(600);
-    });
 
-    document.getElementById('auto').addEventListener('click', function () {
-        chart.setSize(null);
-    });
-
+});
 
 </script>

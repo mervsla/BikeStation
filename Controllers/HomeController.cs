@@ -1,13 +1,7 @@
 ﻿using BikeStation.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using System.Text.Json;
 using BikeStation.Services;
 using BikeStation.DataSource;
 
@@ -33,6 +27,12 @@ namespace BikeStation.Controllers
             var model = GraphicHelper.GetNumberOfBikesAtStations();
             return View(model);
         }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Search()
+        {
+            var model = DataSourceModels.StationsModel;
+            return View(model);
+        }
         public IActionResult Privacy()
         {
             return View();
@@ -49,8 +49,13 @@ namespace BikeStation.Controllers
         {
             var filePath= @"./DataSource/bike.json";
             JsonHelper.AddBikeToJsonFile(model, filePath);
-
             return Ok();
+        }
+        [HttpPost]
+        public IActionResult SearchBike(BikeModel model)
+        {
+            var list = SearchBikes.SearchBikesByBikeModel(model);
+            return Json(list);
         }
     }
 }

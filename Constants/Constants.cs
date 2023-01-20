@@ -14,6 +14,5 @@ namespace BikeStation.Constants
         public const string ACCOUNTNUMBER = "ACCOUNTNUMBER";
         public const string PHONE = "PHONE";
 
-        public enum rental_methods { KEY, APPLEPAY, ANDROIDPAY, TRANSITCARD , ACCOUNTNUMBER, PHONE }
       }
 }
